@@ -57,6 +57,9 @@ async function createQuestions(){
     btn2.setAttribute("id", "finish_button");
     btn2.textContent = "Finalizar";
     document.body.appendChild(btn2);
+    var now = new Date();
+    var quiz_start_time = now.getTime();
+    localStorage.setItem("quiz_start_time",quiz_start_time);
 }
 
 async function main(){

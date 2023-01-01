@@ -13,6 +13,10 @@ function checkAnswer(question_options,index) {
 }
 
 function finishQuiz() {
+    var now = new Date();
+    var quiz_finish_time = now.getTime();
+    var quiz_start_time = localStorage.getItem("quiz_start_time");
+    const seconds = Math.abs((quiz_finish_time - quiz_start_time)/1000);
     var count_right_answers = 0;
     var max_questions = parseInt(localStorage.getItem("max_questions"));
     var i = 0;
@@ -23,5 +27,5 @@ function finishQuiz() {
             count_right_answers++;
         }
     }
-    alert("O número de respostas certas foi "+count_right_answers+"!");
+    alert("O número de respostas certas foi "+count_right_answers+" e o número de segundos gasto foi "+seconds+"!");
 }
