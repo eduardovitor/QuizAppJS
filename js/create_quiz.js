@@ -6,7 +6,9 @@ btn.addEventListener("click", main);
 
 async function createQuestions(){
     var questions_json = await getData();
+    console.log(questions_json);
     const MAX_QUESTIONS = 5;
+    localStorage.setItem("max_questions",5);
     var index=0;
     for(index=0;index<MAX_QUESTIONS;index++) {
         // Creating initial structure
@@ -24,19 +26,21 @@ async function createQuestions(){
         questions_json.results[index].incorrect_answers[1],
         questions_json.results[index].incorrect_answers[2]
         ];
-        
+        var question_ref = "question_"+ (index + 1) + "_answer";
+        localStorage.setItem(question_ref, questions_json.results[index].correct_answer);
         const shuffled_options = array_options.sort((a, b) => 0.5 - Math.random());
         const form = document.createElement("form");
-        form.setAttribute("action","answerQuestion()");
+        form.setAttribute("method","POST");
         var i = 0;
         for(i=0; i < shuffled_options.length; i++){
+            var id_question_option="question" + (index+1);
             var option = document.createElement("input");
             option.setAttribute("type", "radio");
-            option.setAttribute("name", "opção"+(i+1));
-            option.setAttribute("id", "opção"+(i+1));
+            option.setAttribute("name", id_question_option);
+            option.setAttribute("id", id_question_option);
             option.setAttribute("value", shuffled_options[i]);
             var label = document.createElement("label");
-            label.setAttribute("for","opção"+(i+1));
+            label.setAttribute("for","option"+(i+1));
             label.textContent = shuffled_options[i];
             const br = document.createElement("br");
             form.appendChild(option);
@@ -45,13 +49,14 @@ async function createQuestions(){
         }
         question_div.appendChild(form);
         question_div.appendChild(br);
-        if (index == MAX_QUESTIONS-1) {
-            const btn = document.createElement("button");
-            btn.textContent = "Finalizar";
-            question_div.appendChild(btn);
-        }
         document.body.appendChild(question_div);
     }
+    const btn2 = document.createElement("button");
+    btn2.setAttribute("type", "button");
+    btn2.setAttribute("onclick", "finishQuiz()");
+    btn2.setAttribute("id", "finish_button");
+    btn2.textContent = "Finalizar";
+    document.body.appendChild(btn2);
 }
 
 async function main(){
