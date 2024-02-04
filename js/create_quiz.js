@@ -14,7 +14,7 @@ async function createQuestions(){
         // Creating initial structure
         var question_div = document.createElement("div");
         var h1 = document.createElement("h1");
-        h1.textContent = questions_json.results[index].question;
+        h1.textContent = (index+1) + ")" + " " + questions_json.results[index].question;
         question_div.appendChild(h1);
 
         const br = document.createElement("br");
